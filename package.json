@@ -1,0 +1,22 @@
+{
+  "name": "hermes-finance-dashboard",
+  "private": true,
+  "scripts": {
+    "start": "concurrently \"npm run start:api\" \"npm run start:web\"",
+    "start:api": "cd apps/api && npm start",
+    "start:web": "cd apps/web && npm start",
+    "dev": "concurrently \"npm run dev:api\" \"npm run dev:web\"",
+    "dev:api": "cd apps/api && npm run start:dev",
+    "dev:web": "cd apps/web && npm start",
+    "build": "concurrently \"npm run build:api\" \"npm run build:web\"",
+    "build:api": "cd apps/api && npm run build",
+    "build:web": "cd apps/web && npm run build",
+    "install:all": "cd apps/api && npm install && cd ../web && npm install",
+    "test": "concurrently \"npm run test:api\" \"npm run test:web\"",
+    "test:api": "cd apps/api && npm test",
+    "test:web": "cd apps/web && npm test"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
