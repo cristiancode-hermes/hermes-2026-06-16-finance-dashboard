@@ -18,13 +18,25 @@ import { SeedModule } from './seed/seed.module';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        type: 'better-sqlite3' as any,
-        database: configService.get<string>('DATABASE_PATH', 'data/finance.db'),
-        autoLoadEntities: true,
-        synchronize: configService.get<string>('NODE_ENV') === 'development',
-        logging: configService.get<string>('NODE_ENV') === 'development',
-      }),
+      useFactory: (configService: ConfigService) => {
+        const dbType = configService.get<string>('DATABASE_TYPE', 'better-sqlite3');
+        if (dbType === 'postgres') {
+          return {
+            type: 'postgres',
+            url: configService.get<string>('DATABASE_URL'),
+            autoLoadEntities: true,
+            synchronize: true,
+            ssl: { rejectUnauthorized: false },
+          };
+        }
+        return {
+          type: 'better-sqlite3',
+          database: configService.get<string>('DATABASE_PATH', 'data/finance.db'),
+          autoLoadEntities: true,
+          synchronize: configService.get<string>('NODE_ENV') === 'development',
+          logging: configService.get<string>('NODE_ENV') === 'development',
+        };
+      },
     }),
     AuthModule,
     CategoriesModule,
