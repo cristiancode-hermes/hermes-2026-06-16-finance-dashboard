@@ -184,8 +184,8 @@ describe('BudgetsService', () => {
         actual: 250,
         remaining: 250,
         percentage: 50,
-        month: currentMonth,
-        year: currentYear,
+        month: mockBudget.month,
+        year: mockBudget.year,
       });
     });
 
